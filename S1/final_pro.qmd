@@ -1,0 +1,380 @@
+
+```{python}
+# Include and execute your code here
+import pandas as pd
+import sqlite3
+
+# Load the CVS file into a DataFrame
+df = pd.read_csv("mlb_salaries.csv")
+
+# Connect to (or create) the SQLite database
+conn = sqlite3.connect("mlb_salaries.db")
+
+# Save DataFrame to an SQLite table called "salaries"
+df.to_sql("salaries", conn, if_exists="replace", index=False)
+
+print("CVS file successfully imported into SQLite!")
+print(df.head())
+
+# Close the connection
+conn.close()
+
+
+# Display results
+print(df.head())
+
+```
+
+```{python}
+import pandas as pd
+import sqlite3
+
+# Connect to the SQLite database
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: highest paid player
+query = """
+SELECT player_name, team, season, salary
+FROM salaries
+ORDER BY salary DESC
+LIMIT 1;
+"""
+
+highest_paid = pd.read_sql_query(query, conn)
+print(highest_paid)
+
+conn.close()
+```
+Highest paid player as of 2016
+
+
+```{python}
+import pandas as pd
+import sqlite3
+
+# Connect to the SQLite database
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: highest paid player
+query = """
+SELECT player_name, team, season, MAX(salary) AS salary
+FROM salaries
+WHERE season BETWEEN 2000 AND 2016
+GROUP BY player_name
+ORDER BY salary DESC
+LIMIT 5;
+"""
+
+highest_paid = pd.read_sql_query(query, conn)
+print(highest_paid)
+
+conn.close()
+```
+Top 5 Highest paid players as of 2016
+
+
+```{python}
+
+conn = sqlite3.connect("mlb_salaries.db")
+
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season BETWEEN 2000 AND 2016
+GROUP BY team
+ORDER BY total_salary DESC;
+"""
+
+team_salaries = pd.read_sql_query(query, conn)
+print(team_salaries)
+
+conn.close()
+```
+The highest paying teams from 2000-2016 total
+
+
+# World Series Champions--
+2000: New York Yankees
+2001: Arizona Diamondbacks
+2002: Los Angeles Angels
+2003: Florida Marlins
+2004: Boston Red Sox
+2005: Chicago White Sox
+2006: St. Louis Cardinals
+2007: Boston Red Sox
+2008: Philadelphia Phillies
+2009: New York Yankees
+2010: San Francisco Giants
+2011: St. Louis Cardinals
+2012: San Francisco Giants
+2013: Boston Red Sox
+2014: San Francisco Giants
+2015: Kansas City Royals
+2016: Chicago Cubs
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+query = """
+SELECT season, team, MAX(team_salary) AS max_salary
+FROM (
+    SELECT season, team, SUM(salary) AS team_salary
+    FROM salaries
+    WHERE season BETWEEN 2000 AND 2016
+    GROUP BY season, team
+) AS team_totals
+GROUP BY season
+ORDER BY season;
+"""
+
+max_team_salary_per_year = pd.read_sql_query(query, conn)
+print(max_team_salary_per_year)
+
+conn.close()
+```
+Team with Max Salary from each year beginning with 2000-2016
+The highest spending team has won the world Series only 2 times.
+
+
+
+# Why did the Giants win 3 times in the 2010's
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: top 10 highest-paying teams in 2010
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season = 2010
+GROUP BY team
+ORDER BY total_salary DESC
+LIMIT 10;
+"""
+
+top_teams_2010 = pd.read_sql_query(query, conn)
+print(top_teams_2010)
+
+conn.close()
+```
+2010 Top 10 Highest paying Teams
+
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: top 10 highest-paying teams in 2010
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season = 2012
+GROUP BY team
+ORDER BY total_salary DESC
+LIMIT 10;
+"""
+
+top_teams_2012 = pd.read_sql_query(query, conn)
+print(top_teams_2012)
+
+conn.close()
+```
+2012 Top 10 Highest paying Teams
+
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: top 10 highest-paying teams in 2010
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season = 2014
+GROUP BY team
+ORDER BY total_salary DESC
+LIMIT 10;
+"""
+
+top_teams_2014 = pd.read_sql_query(query, conn)
+print(top_teams_2014)
+
+conn.close()
+```
+2014 Top 10 Highest paying Teams
+
+
+# Why did the Boston Red Sox win 3 times from 2000's-2010's
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: top 10 highest-paying teams in 2010
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season = 2004
+GROUP BY team
+ORDER BY total_salary DESC
+LIMIT 10;
+"""
+
+top_teams_2004 = pd.read_sql_query(query, conn)
+print(top_teams_2004)
+
+conn.close()
+```
+2004 Top 10 Highest paying Teams
+
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: top 10 highest-paying teams in 2010
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season = 2007
+GROUP BY team
+ORDER BY total_salary DESC
+LIMIT 10;
+"""
+
+top_teams_2007 = pd.read_sql_query(query, conn)
+print(top_teams_2007)
+
+conn.close()
+```
+2007 Top 10 Highest paying Teams
+
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+# SQL query: top 10 highest-paying teams in 2010
+query = """
+SELECT team, SUM(salary) AS total_salary
+FROM salaries
+WHERE season = 2013
+GROUP BY team
+ORDER BY total_salary DESC
+LIMIT 10;
+"""
+
+top_teams_2013 = pd.read_sql_query(query, conn)
+print(top_teams_2013)
+
+conn.close()
+```
+2013 Top 10 Highest paying Teams
+
+The Giants and Boston RedSox who had the most success in the post Season both had Top 10 Salaries in baseball. So, teams need to spend a decent amount of money to have a chance to win the World Series. However, they never were the highest spending team in baseball.
+
+
+# Does weight/strength affect success?
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+query = """
+SELECT season, team, AVG(weight) AS avg_weight
+FROM salaries
+WHERE season = 2010
+GROUP BY season, team
+ORDER BY avg_weight DESC;
+"""
+
+avg_weight_per_team = pd.read_sql_query(query, conn)
+print(avg_weight_per_team)
+
+conn.close()
+```
+SFG avg is 207.8 lbs
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+query = """
+SELECT season, team, AVG(weight) AS avg_weight
+FROM salaries
+WHERE season = 2012
+GROUP BY season, team
+ORDER BY avg_weight DESC;
+"""
+
+avg_weight_per_team = pd.read_sql_query(query, conn)
+print(avg_weight_per_team)
+
+conn.close()
+```
+SFG avg is 215.75 lbs
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+query = """
+SELECT season, team, AVG(weight) AS avg_weight
+FROM salaries
+WHERE season = 2014
+GROUP BY season, team
+ORDER BY avg_weight DESC;
+"""
+
+avg_weight_per_team = pd.read_sql_query(query, conn)
+print(avg_weight_per_team)
+
+conn.close()
+```
+SFG avg is 214.62 lbs
+
+
+Boston
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+query = """
+SELECT season, team, AVG(weight) AS avg_weight
+FROM salaries
+WHERE season = 2004
+GROUP BY season, team
+ORDER BY avg_weight DESC;
+"""
+
+avg_weight_per_team = pd.read_sql_query(query, conn)
+print(avg_weight_per_team)
+
+conn.close()
+```
+Avg 193.42
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+query = """
+SELECT season, team, AVG(weight) AS avg_weight
+FROM salaries
+WHERE season = 2007
+GROUP BY season, team
+ORDER BY avg_weight DESC;
+"""
+
+avg_weight_per_team = pd.read_sql_query(query, conn)
+print(avg_weight_per_team)
+
+conn.close()
+```
+Avg 209.1666
+
+```{python}
+conn = sqlite3.connect("mlb_salaries.db")
+
+query = """
+SELECT season, team, AVG(weight) AS avg_weight
+FROM salaries
+WHERE season = 2013
+GROUP BY season, team
+ORDER BY avg_weight DESC;
+"""
+
+avg_weight_per_team = pd.read_sql_query(query, conn)
+print(avg_weight_per_team)
+
+conn.close()
+```
+BRS avg is 210.12
+
+Besides Boston 2004, all teams avg weight was over 205 pounds.
