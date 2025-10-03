@@ -48,6 +48,72 @@ conn.close()
 Highest paid player as of 2016
 
 
+# Add Data (weight) Requirement 2
+```{python}
+import sqlite3
+
+# Connect to the SQLite database
+conn = sqlite3.connect("mlb_salaries.db")
+cursor = conn.cursor()
+
+# Create a table for player weights
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS player_weights (
+    player_name TEXT PRIMARY KEY,
+    weight REAL
+);
+""")
+print("✅ Table 'player_weights' created.")
+
+conn.commit()
+conn.close()
+```
+
+```{python}
+import sqlite3
+
+conn = sqlite3.connect("mlb_salaries.db")
+cursor = conn.cursor()
+
+# Insert player weights manually
+cursor.execute("""
+INSERT OR REPLACE INTO player_weights (player_name, weight)
+VALUES (?, ?)
+""", ("Mike Trout", 235))  # Example: Mike Trout weighs 235 lbs
+
+cursor.execute("""
+INSERT OR REPLACE INTO player_weights (player_name, weight)
+VALUES (?, ?)
+""", ("Clayton Kershaw", 210))  
+
+conn.commit()
+conn.close()
+```
+
+```{python}
+import pandas as pd
+import sqlite3
+
+conn = sqlite3.connect("mlb_salaries.db")
+
+query = """
+SELECT s.player_name, s.team, s.season, s.salary, w.weight
+FROM salaries s
+LEFT JOIN player_weights w
+ON s.player_name = w.player_name
+WHERE s.season = 2016
+ORDER BY s.salary DESC
+LIMIT 1;
+"""
+
+highest_paid_with_weight = pd.read_sql_query(query, conn)
+print(highest_paid_with_weight)
+
+conn.close()
+```
+
+
+# Other important data
 ```{python}
 import pandas as pd
 import sqlite3
@@ -378,3 +444,113 @@ conn.close()
 BRS avg is 210.12
 
 Besides Boston 2004, all teams avg weight was over 205 pounds.
+
+
+# updating my complete set
+```{python}
+import pandas as pd
+import sqlite3  
+
+def update_fixed_dataset(db_path, table_name, csv_path, incremental=True, key_column="id", delete_before_year=None, year_column="year"):
+    """
+    Updates a fixed CSV dataset from a database table and optionally deletes old rows.
+    
+    Parameters:
+    - db_path: str, path to your database file
+    - table_name: str, name of the table in the database
+    - csv_path: str, path to your fixed CSV dataset
+    - incremental: bool, if True merges changes, if False overwrites
+    - key_column: str, column to match for incremental updates
+    - delete_before_year: int or None, if set deletes rows before this year
+    - year_column: str, column name for the year (default: 'year')
+    """
+    
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    
+    
+    if delete_before_year is not None:
+        cursor.execute(f"""
+            DELETE FROM {table_name}
+            WHERE {year_column} < ?
+        """, (delete_before_year,))
+        conn.commit()
+        print(f"Deleted rows from database before {delete_before_year}.")
+    
+    
+    db_df = pd.read_sql_query(f"SELECT * FROM {table_name}", conn)
+    
+    try:
+        fixed_df = pd.read_csv(csv_path)
+    except FileNotFoundError:
+        db_df.to_csv(csv_path, index=False)
+        print(f"CSV file created at {csv_path}")
+        conn.close()
+        return
+    
+    
+    if delete_before_year is not None:
+        fixed_df = fixed_df[fixed_df[year_column] >= delete_before_year]
+    
+    if incremental:
+        merged_df = pd.merge(fixed_df, db_df, on=key_column, how="outer", suffixes=('_old',''))
+        merged_df = merged_df.loc[:, ~merged_df.columns.str.endswith('_old')]
+        merged_df.to_csv(csv_path, index=False)
+        print(f"CSV file incrementally updated at {csv_path}")
+    else:
+        db_df.to_csv(csv_path, index=False)
+        print(f"CSV file overwritten with latest data at {csv_path}")
+    
+    conn.close()
+
+```
+
+# deleting everything before 2000
+```{python}
+import pandas as pd
+import sqlite3
+from IPython.display import display
+
+
+def delete_mlb_salaries_before_2000(db_path, table_name="mlb_salaries", csv_path="mlb_salaries.csv", year_column="year"):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    
+    # Show rows to be deleted from DB
+    to_delete = pd.read_sql_query(f"SELECT * FROM {table_name} WHERE {year_column} < 2000", conn)
+    print("Rows to be deleted from database:")
+    if to_delete.empty:
+        print("None")
+    else:
+        display(to_delete)
+    
+    # Delete rows
+    cursor.execute(f"DELETE FROM {table_name} WHERE {year_column} < 2000")
+    conn.commit()
+    print("Deleted rows from database.\n")
+    
+    # Update CSV
+    try:
+        df = pd.read_csv(csv_path)
+        removed_csv = df[df[year_column] < 2000]
+        print("Rows to be removed from CSV:")
+        if removed_csv.empty:
+            print("None")
+        else:
+            display(removed_csv)
+        
+        df = df[df[year_column] >= 2000]
+        df.to_csv(csv_path, index=False)
+        
+        print("\nUpdated CSV. Preview:")
+        display(df.head())
+        print(f"Total rows: {len(df)}")
+        if not df.empty:
+            print(f"Years in CSV: {df[year_column].min()} - {df[year_column].max()}")
+    except FileNotFoundError:
+        print(f"CSV file '{csv_path}' not found.")
+    
+    conn.close()
+
+
+```
