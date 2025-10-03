@@ -228,7 +228,7 @@ conn.close()
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 
-# SQL query: top 10 highest-paying teams in 2010
+
 query = """
 SELECT team, SUM(salary) AS total_salary
 FROM salaries
@@ -249,7 +249,6 @@ conn.close()
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 
-# SQL query: top 10 highest-paying teams in 2010
 query = """
 SELECT team, SUM(salary) AS total_salary
 FROM salaries
@@ -272,7 +271,6 @@ conn.close()
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 
-# SQL query: top 10 highest-paying teams in 2010
 query = """
 SELECT team, SUM(salary) AS total_salary
 FROM salaries
@@ -293,7 +291,6 @@ conn.close()
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 
-# SQL query: top 10 highest-paying teams in 2010
 query = """
 SELECT team, SUM(salary) AS total_salary
 FROM salaries
@@ -314,7 +311,6 @@ conn.close()
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 
-# SQL query: top 10 highest-paying teams in 2010
 query = """
 SELECT team, SUM(salary) AS total_salary
 FROM salaries
