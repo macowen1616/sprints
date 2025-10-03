@@ -17,7 +17,7 @@ def predict_world_series_chance(avg_weight, total_salary, highest_paid):
 
     
     if highest_paid >= 300000000:
-        score += 2  # strong boost
+        score += 2  
     else:
         score -= 1
 
