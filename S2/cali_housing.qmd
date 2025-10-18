@@ -1,0 +1,133 @@
+```{python}
+import pandas as pd
+import lets_plot
+df = pd.read_csv("housing.csv")
+df.head()  
+```
+
+```{python}
+import pandas as pd
+
+# Load CSV
+df = pd.read_csv("housing.csv")
+
+# Find the most expensive house/block
+most_expensive = df.loc[df['median_house_value'].idxmax()]
+
+print("Most expensive house/block details:")
+print(most_expensive)
+
+```
+This shows the average house price within the a block.
+
+```{python}
+
+import pandas as pd
+
+# Load CSV
+df = pd.read_csv("housing.csv")
+
+# Estimate number of homes in each block (assuming 4 rooms per home)
+df['estimated_homes'] = df['total_rooms'] / 4
+
+# Optional: show the top 5 blocks by estimated number of homes
+top_blocks = df.sort_values(by='estimated_homes', ascending=False).head(5)
+print(top_blocks[['longitude', 'latitude', 'total_rooms', 'estimated_homes', 'median_house_value', 'ocean_proximity']])
+
+```
+
+
+```{python}
+import pandas as pd
+
+# Load CSV
+df = pd.read_csv("housing.csv")
+
+# Filter for Bay Area houses
+bay_area_houses = df[df['ocean_proximity'] == 'NEAR BAY']
+
+# Find the oldest block
+oldest_block = bay_area_houses.loc[bay_area_houses['housing_median_age'].idxmax()]
+
+print("Oldest block in the Bay Area:")
+print(oldest_block)
+
+```
+
+
+
+```{python}
+from lets_plot import *
+
+# Initialize Lets-Plot for HTML output
+LetsPlot.setup_html()
+
+# Create the plot
+plot = ggplot(df, aes(x='median_house_value')) + \
+    geom_histogram(binwidth=50000, fill='blue', color='black') + \
+    ggtitle('Distribution of House Prices') + \
+    xlab('Price') + ylab('Count')
+
+# Display the plot (simply evaluate 'plot' in Jupyter/Quarto)
+plot
+```
+Looks for correlation between house size and price.
+
+```{python}
+ggplot(df, aes(x='longitude', y='latitude', color='median_house_value')) + \
+    geom_point(alpha=0.6) + \
+    scale_color_gradient(low='yellow', high='red') + \
+    ggtitle('House Prices by Location') + \
+    xlab('Longitude') + ylab('Latitude')
+
+```
+You can spot clusters of expensive vs cheap areas.
+
+
+```{python}
+ggplot(df, aes(x='ocean_proximity', y='median_house_value')) + \
+    geom_boxplot(fill='lightblue') + \
+    ggtitle('Price by Proximity to Ocean') + \
+    xlab('Proximity') + ylab('Median House Price')
+```
+The proximity near the ocean and the range of cost. 
+
+
+***Location of homes ultimately raise the cost. It doesn't matter the age of the home or space. Rather the land itself is the most expensive part.
+(Taken from the 1900's)
+
+```{python}
+from lets_plot import *
+
+# Setup HTML output
+LetsPlot.setup_html()
+
+# Scatter plot colored by median_income
+plot = ggplot(df, aes(x='longitude', y='latitude', color='median_income')) + \
+    geom_point(alpha=0.6) + \
+    scale_color_gradient(low='yellow', high='red') + \
+    ggtitle('Median Income by Location') + \
+    xlab('Longitude') + ylab('Latitude')
+
+plot
+
+```
+This is based on the thousands amonth.
+
+
+
+```{python}
+
+import pandas as pd
+
+# Load CSV
+df = pd.read_csv("housing.csv")
+
+# Estimate number of homes in each block (assuming 4 rooms per home)
+df['estimated_homes'] = df['total_rooms'] 
+
+# Optional: show the top 5 blocks by estimated number of homes
+top_blocks = df.sort_values(by='estimated_homes', ascending=False).head(5)
+print(top_blocks[['longitude', 'latitude', 'total_rooms', 'estimated_homes', 'median_house_value', 'ocean_proximity']])
+
+```
