@@ -10,12 +10,12 @@ let drawing = false;
 let brushColor = "#000000";
 let brushSize = 4;
 
-// 🎨 Update color when user picks a new one
+// Update color when user picks a new one
 colorPicker.addEventListener("input", () => {
   brushColor = colorPicker.value;
 });
 
-// 🖌️ Update brush size when slider changes
+
 brushSizeSlider.addEventListener("input", () => {
   brushSize = parseInt(brushSizeSlider.value);
   sizeDisplay.textContent = brushSize.toString();
