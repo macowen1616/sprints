@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Drawing Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Scribble Scrub</h1>
+  <canvas id="drawingCanvas" width="900" height="700"></canvas>
+  <button id="clearBtn">Clear</button>
+
+   <!-- Color picker -->
+  <label for="colorPicker">Brush Color:</label>
+  <input type="color" id="colorPicker" value="#000000">
+
+  <label for="brushSize">Brush Size:</label>
+    <input type="range" id="brushSize" min="1" max="30" value="4">
+    <span id="sizeDisplay">4</span> <!-- shows size value -->
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
