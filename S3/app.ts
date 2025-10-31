@@ -10,7 +10,7 @@ let drawing = false;
 let brushColor = "#000000";
 let brushSize = 4;
 
-// Update color when user picks a new one
+
 colorPicker.addEventListener("input", () => {
   brushColor = colorPicker.value;
 });
