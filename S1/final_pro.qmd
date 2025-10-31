@@ -331,7 +331,7 @@ The Giants and Boston RedSox who had the most success in the post Season both ha
 
 
 # Does weight/strength affect success?
-
+# Giants
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 query = """
@@ -384,7 +384,7 @@ conn.close()
 SFG avg is 214.62 lbs
 
 
-Boston
+# Boston
 ```{python}
 conn = sqlite3.connect("mlb_salaries.db")
 
