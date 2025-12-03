@@ -44,7 +44,6 @@
     });
 
     const landmarks = [
-      { position: { lat: 43.8226, lng: -111.7831 }, title: "BYU-Idaho" },
       { position: { lat: 43.81132771907662, lng: -111.77876508780629 }, title: "Rexburg Idaho Temple" },
       { position: { lat: 43.814594829128666, lng: -111.7821554001048 }, title: "Rexburg City Park" },
       { position: { lat: 43.82183096513385, lng: -111.78820861107813 }, title: "Teton Bagel" },
@@ -63,6 +62,7 @@
       { position: { lat: 43.82987618794331, lng: -111.80657964775148 }, title: "Gravity Factory" },
       { position: { lat: 43.82641497160802, lng: -111.77149278187855 }, title: "Madison Memorial Hospital" },
       { position: { lat: 43.824593955245795, lng: -111.76588807293567 }, title: "Hidden Valley" },
+      { position: { lat: 43.804064631995594, lng: -111.80638755804797 }, title: "Chipotle" },
       { position: { lat: 43.829672362244004, lng: -111.75374795335982 }, title: "Desolation" }
     ];
 
@@ -79,12 +79,10 @@ marker.addListener("mouseover", () => {
         infoWindow.open(map, marker);
       });
 
-      // Hover out → close popup
       marker.addListener("mouseout", () => {
         infoWindow.close();
       });
 
-      // Click → show popup and keep open
       marker.addListener("click", () => {
         infoWindow.setContent(`<strong>${landmark.title}</strong>`);
         infoWindow.open(map, marker);
@@ -95,7 +93,7 @@ marker.addListener("mouseover", () => {
 </script>
 
 <script async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5j6DjkptbTWSSkp-GWaZcxDHYCrOENTA&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhGjDKLpfuwnLl9M0WR9cSPmcYnPmM_ZI&callback=initMap">
 </script>
 ```
 
