@@ -36,61 +36,66 @@
 
 ```
 <script>
-  function initMap() {
-    const rexburg = { lat: 43.8230, lng: -111.7908 };
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 14,
-      center: rexburg,
-    });
-
-    const landmarks = [
-      { position: { lat: 43.81132771907662, lng: -111.77876508780629 }, title: "Rexburg Idaho Temple" },
-      { position: { lat: 43.814594829128666, lng: -111.7821554001048 }, title: "Rexburg City Park" },
-      { position: { lat: 43.82183096513385, lng: -111.78820861107813 }, title: "Teton Bagel" },
-      { position: { lat: 43.823030779715495, lng: -111.7910302950481 }, title: "Porter Park" },
-      { position: { lat: 43.836726720198236, lng: -111.77761138707548 }, title: "The Hickory" },
-      { position: { lat: 43.83203583183245, lng: -111.78299879082199 }, title: "Rexburg Rapids" },
-      { position: { lat: 43.8351177305489, lng: -111.79725895860162 }, title: "Nature Park" },
-      { position: { lat: 43.8411829223995, lng: -111.81443832516655 }, title: "Teton Lakes Golf Course" },
-      { position: { lat: 43.83151204956113, lng: -111.76610552601662 }, title: "Rotary Park" },
-      { position: { lat: 43.827792242632064, lng: -111.7715992166059 }, title: "Smith Park" },
-      { position: { lat: 43.813678435874955, lng: -111.79708081398688 }, title: "Continental Park" },
-      { position: { lat: 43.826451980144824, lng: -111.7781856313521 }, title: "Madison County Courthouse" },
-      { position: { lat: 43.82548855214823, lng: -111.7864962039281 }, title: "Red Rabbit Grill" },
-      { position: { lat: 43.80960588914919, lng: -111.78528573598133 }, title: "BYU-I Ropes Course" },
-      { position: { lat: 43.812803848290685, lng: -111.7853497375235 }, title: "BYU-I Upper Fields" },
-      { position: { lat: 43.82987618794331, lng: -111.80657964775148 }, title: "Gravity Factory" },
-      { position: { lat: 43.82641497160802, lng: -111.77149278187855 }, title: "Madison Memorial Hospital" },
-      { position: { lat: 43.824593955245795, lng: -111.76588807293567 }, title: "Hidden Valley" },
-      { position: { lat: 43.804064631995594, lng: -111.80638755804797 }, title: "Chipotle" },
-      { position: { lat: 43.829672362244004, lng: -111.75374795335982 }, title: "Desolation" }
-    ];
-
-    landmarks.forEach((landmark) => {
-      new google.maps.Marker({
-        position: landmark.position,
-        map: map,
-        title: landmark.title,
-      });
-    });
-
-marker.addListener("mouseover", () => {
-        infoWindow.setContent(landmark.title);
-        infoWindow.open(map, marker);
+    function initMap() {
+      const rexburg = { lat: 43.8230, lng: -111.7908 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        center: rexburg,
+        zoom: 13
       });
 
-      marker.addListener("mouseout", () => {
-        infoWindow.close();
-      });
+      const infoWindow = new google.maps.InfoWindow();
 
-      marker.addListener("click", () => {
-        infoWindow.setContent(`<strong>${landmark.title}</strong>`);
-        infoWindow.open(map, marker);
-      });
+      const landmarks = [
+        { pos: { lat: 43.81132771907662, lng: -111.77876508780629 }, title: "Rexburg Idaho Temple", info: "Beautiful LDS temple in Rexburg." },
+        { pos: { lat: 43.814594829128666, lng: -111.7821554001048 }, title: "Rexburg City Park", info: "Large city park with playgrounds and fields." },
+        { pos: { lat: 43.82183096513385, lng: -111.78820861107813 }, title: "Teton Bagel", info: "Popular breakfast spot." },
+        { pos: { lat: 43.823030779715495, lng: -111.7910302950481 }, title: "Porter Park", info: "Park with splash pad and carousel." },
+        { pos: { lat: 43.836726720198236, lng: -111.77761138707548 }, title: "The Hickory", info: "Famous for burgers and BBQ." },
+        { pos: { lat: 43.83203583183245, lng: -111.78299879082199 }, title: "Rexburg Rapids", info: "City water park." },
+        { pos: { lat: 43.8351177305489, lng: -111.79725895860162 }, title: "Nature Park", info: "Large park, ducks, walking trails." },
+        { pos: { lat: 43.8411829223995, lng: -111.81443832516655 }, title: "Teton Lakes Golf Course", info: "Golf course north of Rexburg." },
+        { pos: { lat: 43.83151204956113, lng: -111.76610552601662 }, title: "Rotary Park", info: "Small riverside park." },
+        { pos: { lat: 43.827792242632064, lng: -111.7715992166059 }, title: "Smith Park", info: "Quiet neighborhood park." },
+        { pos: { lat: 43.813678435874955, lng: -111.79708081398688 }, title: "Continental Park", info: "Sports fields and open space." },
+        { pos: { lat: 43.826451980144824, lng: -111.7781856313521 }, title: "Madison County Courthouse", info: "Government building downtown." },
+        { pos: { lat: 43.82548855214823, lng: -111.7864962039281 }, title: "Red Rabbit Grill", info: "Local restaurant with great food." },
+        { pos: { lat: 43.80960588914919, lng: -111.78528573598133 }, title: "BYU-I Ropes Course", info: "Fun challenge course." },
+        { pos: { lat: 43.812803848290685, lng: -111.7853497375235 }, title: "BYU-I Upper Fields", info: "Recreational sports fields." },
+        { pos: { lat: 43.82987618794331, lng: -111.80657964775148 }, title: "Gravity Factory", info: "Indoor trampoline park." },
+        { pos: { lat: 43.82641497160802, lng: -111.77149278187855 }, title: "Madison Memorial Hospital", info: "Local hospital." },
+        { pos: { lat: 43.824593955245795, lng: -111.76588807293567 }, title: "Hidden Valley", info: "Housing complex / neighborhood." },
+        { pos: { lat: 43.804064631995594, lng: -111.80638755804797 }, title: "Chipotle", info: "Popular fast-casual restaurant." },
+        { pos: { lat: 43.829672362244004, lng: -111.75374795335982 }, title: "Desolation", info: "Recreation and camping area." }
+      ];
 
-    
-  }
-</script>
+      landmarks.forEach((lm) => {
+        const marker = new google.maps.Marker({
+          position: lm.pos,
+          map,
+          title: lm.title
+        });
+
+        
+        marker.addListener('mouseover', () => {
+          infoWindow.setContent(`<strong>${lm.title}</strong>`);
+          infoWindow.open(map, marker);
+        });
+
+        
+        marker.addListener('mouseout', () => {
+          infoWindow.close();
+        });
+
+        
+        marker.addListener('click', () => {
+          const content = `<div style="min-width:180px"><h3 style="margin:0 0 6px 0">${lm.title}</h3><p style="margin:0">${lm.info || 'No info available.'}</p></div>`;
+          infoWindow.setContent(content);
+          infoWindow.open(map, marker);
+        });
+      });
+    }
+  </script>
+
 
 <script async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhGjDKLpfuwnLl9M0WR9cSPmcYnPmM_ZI&callback=initMap">
