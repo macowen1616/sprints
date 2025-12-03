@@ -1,77 +1,104 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>Rexburg Landmarks Map</title>
     <style>
-      /* Make sure the map has size */
       #map {
         height: 600px;
         width: 100%;
-        border: black 5px solid;
+        border: 5px solid black;
       }
-      body {
-        font-family: Arial, sans-serif;
-      }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: beige;
+    margin: 0;
+    padding: 0;
+  }
 
-      h1{ 
-        text-align: center; 
-      }
-      html, body {
-        margin: 25px;
-        padding: 25px;
-        height: 100%;
-        background-color: beige;
-      }
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+  }
 
-    </style>
+  .container {
+    padding: 25px;
+  }
+</style>
+```
+
   </head>
   <body>
     <h1>Rexburg, Idaho Landmarks</h1>
-    <div id="map"></div>
+    <div class="container">
+      <div id="map"></div>
+    </div>
 
-    <script>
-      function initMap() {
-        const rexburg = { lat: 43.8230, lng: -111.7908 };
-        const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 14,
-          center: rexburg,
-        });
+```
+<script>
+  function initMap() {
+    const rexburg = { lat: 43.8230, lng: -111.7908 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 14,
+      center: rexburg,
+    });
 
-        const landmarks = [
-          { position: { lat: 43.8226, lng: -111.7831 }, title: "BYU-Idaho" },
-          { position: { lat: 43.8234, lng: -111.7920 }, title: "Rexburg Idaho Temple" },
-          { position: { lat: 43.8221, lng: -111.7890 }, title: "Rexburg City Park" },
-          { position: { lat: 43.8200, lng: -111.7870 }, title: "Teton River" },
-          { position: { lat: 43.8250, lng: -111.7950 }, title: "Rexburg Stake Center" },
-          { position: { lat: 43.8240, lng: -111.7880 }, title: "Rexburg Public Library" },
-          { position: { lat: 43.8260, lng: -111.7910 }, title: "Rexburg High School" },
-          { position: { lat: 43.8210, lng: -111.7850 }, title: "Museum of Rexburg" },
-          { position: { lat: 43.8235, lng: -111.7840 }, title: "Rexburg Aquatic Center" },
-          { position: { lat: 43.8190, lng: -111.7900 }, title: "Rexburg Community Garden" },
-          { position: { lat: 43.8222, lng: -111.7930 }, title: "Rexburg Senior Center" },
-          { position: { lat: 43.8245, lng: -111.7860 }, title: "Rexburg City Hall" },
-          { position: { lat: 43.8205, lng: -111.7880 }, title: "Rexburg Skate Park" },
-          { position: { lat: 43.8255, lng: -111.7895 }, title: "Rexburg Post Office" },
-          { position: { lat: 43.8215, lng: -111.7925 }, title: "Rexburg LDS Temple Visitors Center" },
-          { position: { lat: 43.8238, lng: -111.7875 }, title: "Rexburg Market" },
-          { position: { lat: 43.8195, lng: -111.7865 }, title: "Rexburg Recreation Center" },
-          { position: { lat: 43.8265, lng: -111.7920 }, title: "Rexburg Hospital" },
-          { position: { lat: 43.8208, lng: -111.7910 }, title: "Rexburg Shopping Center" },
-          { position: { lat: 43.8248, lng: -111.7900 }, title: "Rexburg Coffee Shops" },
-        ];
+    const landmarks = [
+      { position: { lat: 43.8226, lng: -111.7831 }, title: "BYU-Idaho" },
+      { position: { lat: 43.81132771907662, lng: -111.77876508780629 }, title: "Rexburg Idaho Temple" },
+      { position: { lat: 43.814594829128666, lng: -111.7821554001048 }, title: "Rexburg City Park" },
+      { position: { lat: 43.82183096513385, lng: -111.78820861107813 }, title: "Teton Bagel" },
+      { position: { lat: 43.823030779715495, lng: -111.7910302950481 }, title: "Porter Park" },
+      { position: { lat: 43.836726720198236, lng: -111.77761138707548 }, title: "The Hickory" },
+      { position: { lat: 43.83203583183245, lng: -111.78299879082199 }, title: "Rexburg Rapids" },
+      { position: { lat: 43.8351177305489, lng: -111.79725895860162 }, title: "Nature Park" },
+      { position: { lat: 43.8411829223995, lng: -111.81443832516655 }, title: "Teton Lakes Golf Course" },
+      { position: { lat: 43.83151204956113, lng: -111.76610552601662 }, title: "Rotary Park" },
+      { position: { lat: 43.827792242632064, lng: -111.7715992166059 }, title: "Smith Park" },
+      { position: { lat: 43.813678435874955, lng: -111.79708081398688 }, title: "Continental Park" },
+      { position: { lat: 43.826451980144824, lng: -111.7781856313521 }, title: "Madison County Courthouse" },
+      { position: { lat: 43.82548855214823, lng: -111.7864962039281 }, title: "Red Rabbit Grill" },
+      { position: { lat: 43.80960588914919, lng: -111.78528573598133 }, title: "BYU-I Ropes Course" },
+      { position: { lat: 43.812803848290685, lng: -111.7853497375235 }, title: "BYU-I Upper Fields" },
+      { position: { lat: 43.82987618794331, lng: -111.80657964775148 }, title: "Gravity Factory" },
+      { position: { lat: 43.82641497160802, lng: -111.77149278187855 }, title: "Madison Memorial Hospital" },
+      { position: { lat: 43.824593955245795, lng: -111.76588807293567 }, title: "Hidden Valley" },
+      { position: { lat: 43.829672362244004, lng: -111.75374795335982 }, title: "Desolation" }
+    ];
 
-        landmarks.forEach((landmark) => {
-          new google.maps.Marker({
-            position: landmark.position,
-            map: map,
-            title: landmark.title,
-          });
-        });
-      }
-    </script>
+    landmarks.forEach((landmark) => {
+      new google.maps.Marker({
+        position: landmark.position,
+        map: map,
+        title: landmark.title,
+      });
+    });
 
-    <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5j6DjkptbTWSSkp-GWaZcxDHYCrOENTA&callback=initMap">
-    </script>
+marker.addListener("mouseover", () => {
+        infoWindow.setContent(landmark.title);
+        infoWindow.open(map, marker);
+      });
+
+      // Hover out → close popup
+      marker.addListener("mouseout", () => {
+        infoWindow.close();
+      });
+
+      // Click → show popup and keep open
+      marker.addListener("click", () => {
+        infoWindow.setContent(`<strong>${landmark.title}</strong>`);
+        infoWindow.open(map, marker);
+      });
+
+ 
+    
+  }
+</script>
+
+<script async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5j6DjkptbTWSSkp-GWaZcxDHYCrOENTA&callback=initMap">
+</script>
+```
+
   </body>
 </html>
